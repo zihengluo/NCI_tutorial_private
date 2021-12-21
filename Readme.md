@@ -70,11 +70,17 @@ I personally regard KSU as a type of currency, the more you used, the more you w
 
 For example:
 
+----------------------------------------------------------------------
 Usage Report: Project={} Period=2021.q4 <-----q4 means the 4th quarter
+
     Grant:    75.00 KSU     <----- total ksu in each quarter
-     Used:    40.34 KSU     <----- ksu you have used in this quarter
- Reserved:     0.00 SU
+
+    Used:    40.34 KSU     <----- ksu you have used in this quarter
+    
+    Reserved:     0.00 SU
+    
     Avail:    34.66 KSU     <----- ksu you can use in this quarter
+-----------------------------------------------------------------------
 
 You can check how they charge compute jobs: 
 https://opus.nci.org.au/display/Help/2.+Compute+Grant+and+Job+Debiting
