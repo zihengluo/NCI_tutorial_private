@@ -70,8 +70,7 @@ I personally regard KSU as a type of currency, the more you used, the more you w
 
 For example:
 
-Usage Report: Project=** Period=2021.q4 <-----q4 means the 4th quarter
-=============================================================
+Usage Report: Project={} Period=2021.q4 <-----q4 means the 4th quarter
     Grant:    75.00 KSU     <----- total ksu in each quarter
      Used:    40.34 KSU     <----- ksu you have used in this quarter
  Reserved:     0.00 SU
