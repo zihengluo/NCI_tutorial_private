@@ -39,6 +39,12 @@ Make your own folder in gdata
 mkdir -p /g/data/{your project id}/{your user name}
 ```
 
+You can check your home space by using:
+
+```
+quota -s -f /home
+```
+
 ##### About storage
 
 Gadi has two places to store files, gdata and scratch, available space of /gdata is 3TB, /scratch is 1TB. In principle, files stored in /scratch 
@@ -64,6 +70,12 @@ gdata:
 nci-files-report -f gdata --group {your project id}
 ```
 
+You can also use this:
+
+```
+lquota
+```
+
 You may notice when you use 'nci_account -P' to check space already used, you can also get a usage report.
 
 I personally regard KSU as a type of currency, the more you used, the more you will be charged.
@@ -80,7 +92,7 @@ Usage Report: Project={} Period=2021.q4 <-----q4 means the 4th quarter
     Reserved:     0.00 SU
     
     Avail:    34.66 KSU     <----- ksu you can use in this quarter
------------------------------------------------------------------------
+
 
 You can check how they charge compute jobs: 
 https://opus.nci.org.au/display/Help/2.+Compute+Grant+and+Job+Debiting
@@ -91,7 +103,19 @@ https://opus.nci.org.au/display/Help/2.2+Job+Cost+Examples
 
 Use normal queue in most situations. 
 
-#### Step 4 
+#### Step 4 Write a script for submitting PBS job
+
+
+
+
+
+
+#### Step 5 Submit your job
+
+
+
+
+#### Step 6
 
 
 
@@ -100,9 +124,70 @@ Use normal queue in most situations.
 
 
 
-
+------------------------------------------------------------------------------
 #### Some tips 
 
-### About Singularity 
 
 
+
+#### What should I do if my home is full but I still need to create a new conda environment
+
+You can remove some environments you no longer need. You can run this to save these environment settings and create new environments with these config files when you need them.
+
+```
+
+```
+
+
+Or
+
+you can create conda environment in another directory (not quite recommend)
+
+For example
+
+```
+conda create --prefix {to/the/folder/you/like}
+
+conda activate {to/the/folder/you/like}
+
+```
+
+Files will save in 
+
+
+
+#### Why my job not run (both submitting job and interactive job)
+
+
+
+#### How to transfer files between remote servers or local computer
+
+
+
+#### Why I can't transfer large files to NCI
+
+Non-interactive job will be killed after 30 minutes, to transfer large files, you can submit a PBS job for transfering.   
+
+
+
+####
+
+
+
+#### About Singularity 
+
+NCI not allow user to make writable singularity container by using fake-root or sandbox, you can't use mysql.
+
+Singularity image can be big, some files will automatelly save in ./singularity (your home path), which may make you get a error like:
+
+WARNING: mkdir {xxxx}/.singularity: disk quota exceeded
+
+To avoid this error, you can create a folder in scratch then link this folder to the .singularity folder in your home path
+
+```
+mkdir -p /scratch/{your project id}/{your username}/.singularity
+
+ln -s /scratch/{your project id}/{your username}/.singularity ${HOME}/.singularity
+```
+
+Then you should be able to download singularity image by using 'singularity pull'
