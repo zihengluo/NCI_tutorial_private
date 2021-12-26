@@ -105,6 +105,37 @@ Use normal queue in most situations.
 
 #### Step 4 Write a script for submitting PBS job
 
+NCI already has installed some basic modules, you can check available modules at https://opus.nci.org.au/display/Help/Gadi+Latest+Software+Update
+
+If the modules you hope to use already be included in this list, you won't need to install them in your conda environment. 
+
+Assume you hope to use a module which already install, write a script like this:
+```
+#!/bin/bash
+#PBS -N Example_Job
+#PBS -q {normal/hugemem}
+#PBS -l mem={}GB
+#PBS -l walltime={}:00:00
+#PBS -l jobfs={}GB
+#PBS -l ncpus={}
+#PBS -l wd
+#PBS -l storage=scratch/{project_id}+gdata/{project_id}
+#PBS -M {your_email_address}                    <-------if you provide your email address, you will receive a mail if your job exceed memory you requested
+
+set -xue
+
+module load {module}/{module version}
+
+{your command}
+
+module unload {module}/{module version}
+```
+
+After you write this script, you can submit it with:
+```
+
+```
+
 
 
 
