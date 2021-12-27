@@ -23,7 +23,7 @@ ssh {username}@gadi.nci.org.au
 
 #### Step 3 Set up your home 
 
-Each user only have 1 gb space in their home folder, so install a miniconda
+Each user only have 1 gb space in their home folder, so install a miniconda (looks like already increase to 10 gb)
 
 https://docs.conda.io/en/latest/miniconda.html
 
@@ -126,32 +126,72 @@ set -xue
 
 module load {module}/{module version}
 
-{your command}
+{put your command here}
 
 module unload {module}/{module version}
-```
-
-After you write this script, you can submit it with:
-```
 
 ```
-
-
-
-
 
 
 #### Step 5 Submit your job
 
 
+After you write this script, you can submit it with:
+
+```
+qsub {your script}
+
+```
+After submission, you will get a job id
+
+Then you can trace your job progress with the job id provided:
+
+```
+qstat -fx {job_id}
+
+```
+
+If you forget your job id
+
+```
+qstat -u {your user id} -sw
+
+```
+
+Different status of the job status:
+
+Q: waiting
+
+R: running
+
+H: holding, possibly your project doesn't have enough KSU or the job memory you requested exceed
+
+More potential reasons cause your job not running can be found here: https://opus.nci.org.au/display/Help/FAQ+1%3A+Why+My+Jobs+are+NOT+Running
+
+If your job use memory exceed requested, you might receive email like this:
+
+PBS Job Id: 28860049.gadi-pbs
+Job Name:  {}
+Job to be deleted at request of root@gadi-cpu-clx-1429.gadi.nci.org.au
+
+Then you should request more memeory and submit this job again
 
 
-#### Step 6
+#### Step 6 Submit a interactive job 
+
+Sometime you might need to run interactive job, submit an interactive job will allow you to work on a compute node directly and use NCI like using command line. Only single CPU core, 4 GB memory and 30 minutes running time is allowed on the login node, so submit an interactive job if you want to use node like using command line. 
+
+```
+qsub -I -P {project_id} -q {normal/express/hugemem} -l walltime={}:00:00,ncpus={},mem={}GB,jobfs={}GB,storage=gdata/{project_id}+scratch/{project_id},wd
+
+```
+
+Once the interactive job is ready, it will give you a job id and you can see @gadi-login-0x ~ change to @cpu~xxxxx (not quite remember) 
+
+After you finish your work, you can simply type 'quit' to end your interactive job
 
 
-
-
-
+Remember: interactive jobs will stop once you log out from the login node, keep the window open before finishing your job   
 
 
 
@@ -166,8 +206,17 @@ After you write this script, you can submit it with:
 You can remove some environments you no longer need. You can run this to save these environment settings and create new environments with these config files when you need them.
 
 ```
+conda env export >{name you like}.yml
 
 ```
+
+Create the same environment with the configure file you made:
+
+```
+conda env create --name {name you like} -f {your configure file name} 
+
+```
+
 
 
 Or
@@ -183,7 +232,7 @@ conda activate {to/the/folder/you/like}
 
 ```
 
-Files will save in 
+You can find packages you install in this folder. 
 
 
 
@@ -197,11 +246,18 @@ Files will save in
 
 #### Why I can't transfer large files to NCI
 
-Non-interactive job will be killed after 30 minutes, to transfer large files, you can submit a PBS job for transfering.   
+Details about transfering files to or from NCI: 
+
+No-interactive job will be killed after 30 minutes, to transfer large files, you can submit a PBS job for transfering.   
+
+For small size files (smaller than around 600 Gb) which will take less than 30 minutes to transfer
+```
+
+```
 
 
 
-####
+#### 
 
 
 
